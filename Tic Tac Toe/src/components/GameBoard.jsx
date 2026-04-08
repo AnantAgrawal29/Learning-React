@@ -1,34 +1,22 @@
-import { useState } from "react";
-
 const initialGameBoard = [
   [null, null, null],
   [null, null, null],
   [null, null, null],
 ];
 
-export default function GameBoard({ select, symbol }) {
-  const [gameBoard, setGameBoard] = useState(initialGameBoard);
-  function handleSelectSquare(rowIndex, colIndex) {
-    setGameBoard((prevGameBoard) => {
-      const updatedBoard = [
-        ...prevGameBoard.map((innerArray) => [...innerArray]),
-      ];
-      updatedBoard[rowIndex][colIndex] = symbol;
-      return updatedBoard;
-    });
-    // is using object or array for use state then update the array through reference
-    select();
+export default function GameBoard({ select, turns }) {
+  let gameBoard = initialGameBoard;
+  for (const turn of turns) {
+    const { square, player } = turn;
   }
   return (
     <ol id="game-board">
-      {gameBoard.map((row, rowIndex) => (
+      {initialGameBoard.map((row, rowIndex) => (
         <li key={rowIndex}>
           <ol>
             {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
-                <button onClick={() => handleSelectSquare(rowIndex, colIndex)}>
-                  {playerSymbol}
-                </button>
+                <button onClick={select}>{playerSymbol}</button>
               </li>
             ))}
           </ol>
