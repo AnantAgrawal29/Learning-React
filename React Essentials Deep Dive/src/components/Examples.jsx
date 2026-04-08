@@ -26,7 +26,7 @@ export default function Examples() {
   return (
     <Section title="Examples" id="examples">
       <Tabs
-        ButtonsContainer="menu" // important wrapping the buttons inside the component menu, check Tabs.jsx
+        // ButtonsContainer="menu" // important wrapping the buttons inside the component menu, check Tabs.jsx
         buttons={
           <>
             <TabButton
