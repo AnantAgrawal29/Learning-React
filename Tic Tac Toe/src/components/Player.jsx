@@ -1,8 +1,7 @@
 import { useState } from "react";
-export default function Player({ name, symbol, isActive }) {
-  const [isEditing, setIsEditing] = useState(false);
+export default function Player({ name, change, symbol, isActive }) {
   const [playerName, setPlayerName] = useState(name);
-
+  const [isEditing, setIsEditing] = useState(false);
   function handleEdit() {
     // setIsEditing(!isEditing); cannot use because
     // ** react use scheduling **
@@ -10,6 +9,9 @@ export default function Player({ name, symbol, isActive }) {
     // ** this doesn't the value of isEditing **
 
     setIsEditing((editing) => !editing);
+    if (isEditing) {
+      change(symbol, playerName);
+    }
     //gets latest editing state value and it is then changed,
     //** this changes the value of isEditing **
   }
