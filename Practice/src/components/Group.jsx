@@ -1,8 +1,8 @@
-export default function Group({ name, type }) {
+export default function Group({ name, ...props }) {
   return (
     <p>
       <label>{name}</label>
-      <input type={type} required />
+      <input {...props} required />
     </p>
   );
 }
