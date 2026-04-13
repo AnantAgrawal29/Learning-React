@@ -1,4 +1,18 @@
 import { useState } from "react";
+import { styled } from "styled-components";
+import Button from "./Button";
+import CustomInput from "./Input";
+
+const ControlContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+`;
+
+// Prop renamed to $invalid — the $ prefix tells styled-components this is a transient prop, so it's consumed by the styling logic and never forwarded to the DOM.
+
+// A transient prop is a prop prefixed with $ that styled-components consumes internally for styling without forwarding it to the DOM.
 
 export default function AuthInputs() {
   const [enteredEmail, setEnteredEmail] = useState("");
@@ -22,37 +36,17 @@ export default function AuthInputs() {
 
   return (
     <div id="auth-inputs">
-      <div className="controls">
-        <p>
-          <label className={`${emailNotValid ? "invalid" : ""} label`}>
-            Email
-          </label>
-          <input
-            type="email"
-            className={emailNotValid ? "invalid" : undefined}
-            onChange={(event) => handleInputChange("email", event.target.value)}
-          />
-        </p>
-        <p>
-          <label className={`${emailNotValid ? "invalid" : ""} label`}>
-            Password
-          </label>
-          <input
-            type="password"
-            className={passwordNotValid ? "invalid" : undefined}
-            onChange={(event) =>
-              handleInputChange("password", event.target.value)
-            }
-          />
-        </p>
-      </div>
+      <ControlContainer>
+        <CustomInput label="Email" invalid={emailNotValid} />
+        <CustomInput label="Password" invalid={passwordNotValid} />
+      </ControlContainer>
       <div className="actions">
         <button type="button" className="text-button">
           Create a new account
         </button>
-        <button className="button" onClick={handleLogin}>
+        <Button className="button" onClick={handleLogin}>
           Sign In
-        </button>
+        </Button>
       </div>
     </div>
   );
