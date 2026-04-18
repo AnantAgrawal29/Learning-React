@@ -28,8 +28,6 @@ export default function TimerChallenge({ title, targetTime }) {
       // treating component as an API with method open
       // dialog.current.open();
     }, 10);
-
-    setTimerStarted(true);
   }
 
   function handleStop() {

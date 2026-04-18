@@ -13,8 +13,9 @@
 //   );
 // }
 
-// for older react version we couldn't accept ref as parameter to component so below method was used
+// for older react version we couldn't accept ref as parameter to component so below forwardRef method was used
 import { forwardRef, useImperativeHandle, useRef } from "react";
+import { createPortal } from "react-dom";
 const ResultModal = forwardRef(function ResultModal(
   { remainingTime, targetTime, onReset },
   ref,
@@ -33,7 +34,7 @@ const ResultModal = forwardRef(function ResultModal(
       },
     };
   });
-  return (
+  return createPortal(
     // by setting ref to dialog ref inside dialog element we are cutting access of dialog element from anywhere outside of this component
     <dialog ref={dialog} className="result-modal" onClose={onReset}>
       {userLost && <h2>You lost!</h2>}
@@ -45,7 +46,8 @@ const ResultModal = forwardRef(function ResultModal(
       <form method="dialog" onSubmit={onReset}>
         <button>Close</button>
       </form>
-    </dialog>
+    </dialog>,
+    document.getElementById("modal"),
   );
 });
 export default ResultModal;
