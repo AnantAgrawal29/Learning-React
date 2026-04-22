@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import Tasks from "./Tasks";
-export default function Project({ data }) {
+export default function Project({ handleDelete, data }) {
   const task = useRef();
   const [gettask, setTask] = useState([]);
   function handleTask() {
@@ -14,12 +14,17 @@ export default function Project({ data }) {
       .slice(3)
       .replace(day, day + ",");
   }
+  function handleClear(index) {
+    setTask((tasks) => tasks.filter((_, i) => i !== index));
+  }
   return (
     <>
       <div className="project">
         <div className="project-header">
           <h1 className="text-3xl font-bold">{data.title}</h1>
-          <button className="btn">Delete</button>
+          <button className="btn" onClick={() => handleDelete(data.title)}>
+            Delete
+          </button>
         </div>
         <p className="date">{createDate()}</p>
         <p className="mt-4">{data.description}</p>
@@ -39,7 +44,9 @@ export default function Project({ data }) {
             This project does not have any tasks yet.
           </p>
         )}
-        {gettask.length > 0 && <Tasks tasks={gettask} />}
+        {gettask.length > 0 && (
+          <Tasks handleClear={handleClear} tasks={gettask} />
+        )}
       </div>
     </>
   );

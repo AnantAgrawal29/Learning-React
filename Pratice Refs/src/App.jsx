@@ -14,6 +14,13 @@ function App() {
     setProject(null);
   }
 
+  function handleDelete(title) {
+    setProjectList((projects) =>
+      projects.filter((project) => project.title !== title),
+    );
+    setProject(null);
+  }
+
   function handleData(newData) {
     setProjectList((prevData) => [...prevData, newData]);
   }
@@ -29,7 +36,7 @@ function App() {
         handleProject={handleProject}
         data={projectList}
       />
-      {project && <Project data={project} />}
+      {project && <Project data={project} handleDelete={handleDelete} />}
       {!toAdd && !project && <Home handleCreate={handleCreate} />}
       {toAdd && (
         <NewProject handleCreate={handleCreate} handleData={handleData} />
