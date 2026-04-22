@@ -11,6 +11,7 @@ function App() {
 
   function handleCreate() {
     setAdd((prevAdd) => !prevAdd);
+    setProject(null);
   }
 
   function handleData(newData) {
@@ -18,6 +19,7 @@ function App() {
   }
 
   function handleProject(data) {
+    setAdd(false);
     setProject(data);
   }
   return (
@@ -27,14 +29,8 @@ function App() {
         handleProject={handleProject}
         data={projectList}
       />
-      <Project
-        data={{
-          title: "Learning React",
-          description: "Completing React Course",
-          dueDate: "2003-01-20",
-        }}
-      />
-      {/* {!toAdd && <Home handleCreate={handleCreate} />} */}
+      {project && <Project data={project} />}
+      {!toAdd && !project && <Home handleCreate={handleCreate} />}
       {toAdd && (
         <NewProject handleCreate={handleCreate} handleData={handleData} />
       )}

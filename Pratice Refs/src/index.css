@@ -70,6 +70,10 @@ body {
   border: none;
 }
 
+.btn-add:hover {
+  background-color: rgb(75, 69, 69);
+}
+
 .btn-create {
   margin: 3rem auto;
   font-size: 1.25rem;
@@ -124,8 +128,22 @@ body {
 .tasks input:hover {
   border-color: rgb(231, 229, 229);
 }
+
 .tasks input:focus {
   border-color: rgb(7, 81, 160);
+}
+
+.tasks .tasks-container {
+  padding: 2rem 1rem 1rem 1rem;
+  margin-top: 2rem;
+  border-radius: 4px;
+  background-color: rgb(243, 243, 243);
+  color: rgb(10, 10, 10);
+  width: 45rem;
+}
+
+.tasks .tasks-container button:hover {
+  color: rgb(246, 63, 63);
 }
 
 .form {
