@@ -1,11 +1,20 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Tasks from "./Tasks";
 export default function Project({ handleDelete, data }) {
-  const task = useRef();
+  const [enteredTask, setEnteredTask] = useState(undefined);
   const [gettask, setTask] = useState([]);
+
   function handleTask() {
-    setTask((prevTask) => [task.current.value, ...prevTask]);
+    if (enteredTask) {
+      setEnteredTask("");
+      setTask((prevTask) => [enteredTask, ...prevTask]);
+    }
   }
+
+  function handleChange(event) {
+    setEnteredTask(event.target.value);
+  }
+
   function createDate() {
     const date = new Date(Date.parse(data.dueDate));
     return date.toLocaleDateString(navigator.language, {
@@ -34,7 +43,12 @@ export default function Project({ handleDelete, data }) {
       </div>
       <div className="tasks">
         <h1 className="text-2xl font-bold">Tasks</h1>
-        <input type="text" className="mt-4 py-1 px-2 text-base" ref={task} />
+        <input
+          type="text"
+          className="mt-4 py-1 px-2 text-base"
+          onChange={handleChange}
+          value={enteredTask}
+        />
         <button className="ml-4 inline btn-hover" onClick={handleTask}>
           Add Task
         </button>
