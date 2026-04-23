@@ -6,7 +6,7 @@ export default function NewProject({ handleData, handleCreate }) {
   return (
     <div className="form text-center p-8">
       <div className="text-right">
-        <button className="btn btn-cancel" onClick={handleCreate}>
+        <button className="btn btn-hover btn-cancel" onClick={handleCreate}>
           Cancel
         </button>
         <button

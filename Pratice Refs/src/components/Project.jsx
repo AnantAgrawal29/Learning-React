@@ -22,7 +22,10 @@ export default function Project({ handleDelete, data }) {
       <div className="project">
         <div className="project-header">
           <h1 className="text-3xl font-bold">{data.title}</h1>
-          <button className="btn" onClick={() => handleDelete(data.title)}>
+          <button
+            className="btn btn-hover"
+            onClick={() => handleDelete(data.title)}
+          >
             Delete
           </button>
         </div>
@@ -31,12 +34,8 @@ export default function Project({ handleDelete, data }) {
       </div>
       <div className="tasks">
         <h1 className="text-2xl font-bold">Tasks</h1>
-        <input
-          type="text"
-          className="mt-4 py-1 px-2 bg-stone-200 text-base"
-          ref={task}
-        />
-        <button className="ml-4 inline" onClick={handleTask}>
+        <input type="text" className="mt-4 py-1 px-2 text-base" ref={task} />
+        <button className="ml-4 inline btn-hover" onClick={handleTask}>
           Add Task
         </button>
         {gettask.length === 0 && (

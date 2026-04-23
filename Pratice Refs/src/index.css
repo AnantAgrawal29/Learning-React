@@ -7,9 +7,9 @@ body {
   font-family: "Roboto", sans-serif;
   margin: 0px;
   padding: 0px;
-  /* height: 85vh; */
+  height: 85vh;
   box-sizing: inherit;
-  /* background: linear-gradient(-45deg, rgb(255 236 162), rgb(255 201 218)); */
+  background: linear-gradient(-45deg, rgb(255 236 162), rgb(255 201 218));
 }
 
 .header {
@@ -81,6 +81,10 @@ body {
   color: rgb(184 179 179);
 }
 
+.btn-create:hover {
+  background-color: rgb(61, 45, 45);
+}
+
 .btn-save {
   display: inline;
   background-color: black;
@@ -90,9 +94,17 @@ body {
   border-radius: 8px;
 }
 
+.btn-save:hover {
+  background-color: rgb(61, 45, 45);
+}
+
 .btn-cancel {
   font-size: 1rem;
   display: inline;
+}
+
+.btn-hover:hover {
+  text-shadow: 1px 2px 4px rgb(197, 161, 161);
 }
 
 .project {
@@ -109,7 +121,7 @@ body {
 }
 
 .project .date {
-  color: rgb(164 157 157);
+  color: rgb(76 23 5);
 }
 
 .tasks {
@@ -121,29 +133,32 @@ body {
   min-width: 16rem;
   border-radius: 4px;
   color: rgb(10, 10, 10);
-  border: 2.5px solid rgb(231, 229, 229);
+  border: 2.5px solid transparent;
   outline: none;
+  background-color: rgb(241, 148, 119);
+  box-shadow: 1px 2px 4px rgba(144, 75, 75, 0.5);
 }
 
 .tasks input:hover {
-  border-color: rgb(231, 229, 229);
+  border-color: transparent;
 }
 
 .tasks input:focus {
-  border-color: rgb(7, 81, 160);
+  border-color: rgb(63, 18, 2);
 }
 
 .tasks .tasks-container {
   padding: 2rem 1rem 1rem 1rem;
   margin-top: 2rem;
   border-radius: 4px;
-  background-color: rgb(243, 243, 243);
-  color: rgb(10, 10, 10);
+  background: linear-gradient(90deg, rgb(20, 0, 3), rgb(50, 3, 14));
+  box-shadow: 1px 4px 20px rgb(205, 176, 151);
+  color: rgb(249, 214, 174);
   width: 45rem;
 }
 
 .tasks .tasks-container button:hover {
-  color: rgb(246, 63, 63);
+  color: rgb(247, 101, 135);
 }
 
 .form {
@@ -176,7 +191,8 @@ textarea {
   width: 100%;
   padding: 0.5rem;
   border-bottom: 2px solid rgb(162, 159, 159);
-  background-color: rgb(221, 220, 220);
+  background-color: rgb(244, 201, 184);
+  box-shadow: 1px 2px 4px rgba(144, 75, 75, 0.5);
 }
 
 .input-group input:focus,
