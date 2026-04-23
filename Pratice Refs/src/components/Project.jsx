@@ -8,11 +8,11 @@ export default function Project({ handleDelete, data }) {
   }
   function createDate() {
     const date = new Date(Date.parse(data.dueDate));
-    const day = "" + date.getDate();
-    return date
-      .toDateString()
-      .slice(3)
-      .replace(day, day + ",");
+    return date.toLocaleDateString(navigator.language, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
   }
   function handleClear(index) {
     setTask((tasks) => tasks.filter((_, i) => i !== index));
@@ -30,7 +30,7 @@ export default function Project({ handleDelete, data }) {
           </button>
         </div>
         <p className="date">{createDate()}</p>
-        <p className="mt-4">{data.description}</p>
+        <p className="mt-4 whitespace-pre-wrap">{data.description}</p>
       </div>
       <div className="tasks">
         <h1 className="text-2xl font-bold">Tasks</h1>
