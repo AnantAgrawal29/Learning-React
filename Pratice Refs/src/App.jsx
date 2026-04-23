@@ -30,7 +30,7 @@ function App() {
     setProject(data);
   }
   return (
-    <>
+    <main>
       <SideBar
         handleCreate={handleCreate}
         handleProject={handleProject}
@@ -41,7 +41,7 @@ function App() {
       {toAdd && (
         <NewProject handleCreate={handleCreate} handleData={handleData} />
       )}
-    </>
+    </main>
   );
 }
 

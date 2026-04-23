@@ -1,4 +1,6 @@
 import { useRef } from "react";
+import Input from "./Input";
+
 export default function NewProject({ handleData, handleCreate }) {
   const title = useRef();
   const description = useRef();
@@ -23,18 +25,26 @@ export default function NewProject({ handleData, handleCreate }) {
           Save
         </button>
       </div>
-      <div className="input-group">
-        <label className="uppercase">Title</label>
-        <input type="text" id="title" ref={title} />
-      </div>
-      <div className="input-group">
-        <label className="uppercase">Description</label>
-        <textarea id="description" ref={description}></textarea>
-      </div>
-      <div className="input-group">
-        <label className="uppercase">Due date</label>
-        <input type="date" id="date" ref={date} />
-      </div>
+      <Input
+        type="text"
+        textarea={false}
+        content="Title"
+        id="title"
+        ref={title}
+      />
+      <Input
+        id="description"
+        ref={description}
+        content="Description"
+        textarea={true}
+      />
+      <Input
+        type="date"
+        id="date"
+        textarea={false}
+        content="due date"
+        ref={date}
+      />
     </div>
   );
 }
