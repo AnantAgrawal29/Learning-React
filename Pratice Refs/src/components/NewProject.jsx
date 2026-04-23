@@ -36,6 +36,8 @@ export default function NewProject({ handleData, handleCreate }) {
                   title: title.current.value,
                   description: description.current.value,
                   dueDate: date.current.value,
+                  tasks: [],
+                  id: Math.random(),
                 });
               } else modal.current.open();
             }}

@@ -14,11 +14,42 @@ function App() {
     setProject(null);
   }
 
-  function handleDelete(title) {
-    setProjectList((projects) =>
-      projects.filter((project) => project.title !== title),
-    );
+  function handleDelete(id) {
+    setProjectList((projects) => projects.filter((p) => p.id !== id));
     setProject(null);
+  }
+
+  function handleAddTasks(task, id) {
+    setProjectList((projects) =>
+      projects.map((p) =>
+        p.id === id ? { ...p, tasks: [task, ...p.tasks] } : p,
+      ),
+    );
+
+    setProject((currentProject) =>
+      currentProject && currentProject.id === id
+        ? { ...currentProject, tasks: [task, ...currentProject.tasks] }
+        : currentProject,
+    );
+  }
+
+  function handleDeleteTasks(index, id) {
+    setProjectList((projects) =>
+      projects.map((p) =>
+        p.id === id
+          ? { ...p, tasks: p.tasks.filter((_, i) => i !== index) }
+          : p,
+      ),
+    );
+
+    setProject((currentProject) =>
+      currentProject && currentProject.id === id
+        ? {
+            ...currentProject,
+            tasks: currentProject.tasks.filter((_, i) => i !== index),
+          }
+        : currentProject,
+    );
   }
 
   function handleData(newData) {
@@ -36,7 +67,14 @@ function App() {
         handleProject={handleProject}
         data={projectList}
       />
-      {project && <Project data={project} handleDelete={handleDelete} />}
+      {project && (
+        <Project
+          data={project}
+          handleDelete={handleDelete}
+          handleAddTasks={handleAddTasks}
+          handleDeleteTasks={handleDeleteTasks}
+        />
+      )}
       {!toAdd && !project && <Home handleCreate={handleCreate} />}
       {toAdd && (
         <NewProject handleCreate={handleCreate} handleData={handleData} />

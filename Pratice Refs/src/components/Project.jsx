@@ -1,13 +1,16 @@
 import { useState } from "react";
 import Tasks from "./Tasks";
-export default function Project({ handleDelete, data }) {
-  const [enteredTask, setEnteredTask] = useState(undefined);
-  const [gettask, setTask] = useState([]);
-
+export default function Project({
+  handleAddTasks,
+  handleDeleteTasks,
+  handleDelete,
+  data,
+}) {
+  const [enteredTask, setEnteredTask] = useState("");
   function handleTask() {
     if (enteredTask) {
+      handleAddTasks(enteredTask, data.id);
       setEnteredTask("");
-      setTask((prevTask) => [enteredTask, ...prevTask]);
     }
   }
 
@@ -23,8 +26,9 @@ export default function Project({ handleDelete, data }) {
       day: "numeric",
     });
   }
+
   function handleClear(index) {
-    setTask((tasks) => tasks.filter((_, i) => i !== index));
+    handleDeleteTasks(index, data.id);
   }
   return (
     <>
@@ -33,7 +37,7 @@ export default function Project({ handleDelete, data }) {
           <h1 className="text-3xl font-bold">{data.title}</h1>
           <button
             className="btn btn-hover"
-            onClick={() => handleDelete(data.title)}
+            onClick={() => handleDelete(data.id)}
           >
             Delete
           </button>
@@ -52,13 +56,13 @@ export default function Project({ handleDelete, data }) {
         <button className="ml-4 inline btn-hover" onClick={handleTask}>
           Add Task
         </button>
-        {gettask.length === 0 && (
+        {data.tasks.length === 0 && (
           <p className="mt-4 text-stone-900">
             This project does not have any tasks yet.
           </p>
         )}
-        {gettask.length > 0 && (
-          <Tasks handleClear={handleClear} tasks={gettask} />
+        {data.tasks.length > 0 && (
+          <Tasks handleClear={handleClear} tasks={data.tasks} />
         )}
       </div>
     </>
