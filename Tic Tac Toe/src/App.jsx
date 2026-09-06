@@ -115,10 +115,6 @@ function App() {
 
   function handlePlayerNameChange(symbol, newName) {
     setPlayers((prevPlayers) => {
-      console.log({
-        ...prevPlayers,
-        [symbol]: newName,
-      });
       return {
         ...prevPlayers,
         [symbol]: newName,

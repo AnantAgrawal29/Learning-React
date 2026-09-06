@@ -6,7 +6,7 @@ export default function Player({ name, change, symbol, isActive }) {
     // setIsEditing(!isEditing); cannot use because
     // ** react use scheduling **
     // it schedules the state update but doesn't update the state yet
-    // ** this doesn't the value of isEditing **
+    // ** this doesn't update the value of isEditing **
 
     setIsEditing((editing) => !editing);
     if (isEditing) {

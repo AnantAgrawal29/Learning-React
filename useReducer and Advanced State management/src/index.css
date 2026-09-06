@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Merriweather:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Merriweather:wght@400;700&display=swap");
 
 * {
   box-sizing: border-box;
@@ -6,10 +6,10 @@
 
 body {
   margin: 0;
-  font-family: 'Merriweather', serif;
+  font-family: "Merriweather", serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(#31220b, #382e1b);
+  background: linear-gradient(#310b0e, #211416);
   color: #f3e7d4;
   min-height: 100vh;
 }
@@ -76,16 +76,17 @@ h1 {
 
 .product {
   height: 100%;
-  background: #5f4e33;
+  background: #5131337a;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 40px rgba(249, 14, 73, 0.2);
 }
 
 .product img {
   width: 100%;
-  border-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 }
 
 .product-content {
@@ -128,7 +129,7 @@ h1 {
 
 #modal {
   width: 30%;
-  background: #d3b17b;
+  background: #5d2222e0;
   border: none;
   border-radius: 6px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -141,9 +142,13 @@ h1 {
 
 #modal h2 {
   font-size: 1.5rem;
-  color: #4f3807;
+  color: #fbc151;
   text-transform: uppercase;
   margin: 0;
+}
+
+#cart p {
+  color: #baae8f;
 }
 
 #cart-items {
@@ -191,6 +196,7 @@ h1 {
 
 #cart-total-price {
   text-align: right;
+  color: #baae8f;
 }
 
 #modal form {
@@ -204,17 +210,17 @@ h1 {
   background: transparent;
   border: none;
   border-radius: 5px;
-  color: #201e1a;
+  color: #c39b45;
   cursor: pointer;
   font-size: 1.1rem;
 }
 
 #modal form button:hover {
-  color: #453719;
+  color: #e5b753;
 }
 
 #modal form button:last-of-type {
-  background: #271e07;
+  background: #381b1f;
   border: none;
   border-radius: 5px;
   padding: 0.5rem 1rem;
@@ -224,7 +230,7 @@ h1 {
 }
 
 #modal form button:last-of-type:hover {
-  background: #382e1b;
+  background: #5a2f35;
 }
 
 #checkout {
