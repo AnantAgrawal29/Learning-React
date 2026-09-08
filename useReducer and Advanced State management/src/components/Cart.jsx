@@ -1,10 +1,17 @@
 // import { use } from "react";
 // short for useContext, but use is more flexible, it can be used inside if blocks, generally you are not allowed to use hooks inside if blocks
 
-import { useContext } from "react";
+// import { useContext } from "react";
 import { CartContext } from "../store/shopping-cart-context";
 
-export default function Cart({ onUpdateItemQuantity }) {
+export default function Cart() {
+  // using useContext method
+  // const { items } = useContext(CartContext);
+  // const totalPrice = items.reduce(
+  //   (acc, item) => acc + item.price * item.quantity,
+  //   0,
+  // );
+  // const formattedTotalPrice = `$${totalPrice.toFixed(2)}`;
   return (
     <CartContext.Consumer>
       {/* another way of getting context from created context, using consumer and function in which context is automatically passed */}
@@ -30,13 +37,13 @@ export default function Cart({ onUpdateItemQuantity }) {
                       </div>
                       <div className="cart-item-actions">
                         <button
-                          onClick={() => onUpdateItemQuantity(item.id, -1)}
+                          onClick={() => cartCtx.updateItemsInCart(item.id, -1)}
                         >
                           -
                         </button>
                         <span>{item.quantity}</span>
                         <button
-                          onClick={() => onUpdateItemQuantity(item.id, 1)}
+                          onClick={() => cartCtx.updateItemsInCart(item.id, 1)}
                         >
                           +
                         </button>
