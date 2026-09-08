@@ -2,7 +2,7 @@
 // short for useContext, but use is more flexible, it can be used inside if blocks, generally you are not allowed to use hooks inside if blocks
 
 // import { useContext } from "react";
-import { CartContext } from "../store/shopping-cart-context";
+import { CartContext } from "../store/shopping-cart-context.jsx";
 
 export default function Cart() {
   // using useContext method
