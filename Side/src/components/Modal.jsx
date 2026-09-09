@@ -1,26 +1,21 @@
-import { forwardRef, useImperativeHandle, useRef } from 'react';
-import { createPortal } from 'react-dom';
+import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 
-const Modal = forwardRef(function Modal({ children }, ref) {
+function Modal({ open, children, onClose }) {
   const dialog = useRef();
-
-  useImperativeHandle(ref, () => {
-    return {
-      open: () => {
-        dialog.current.showModal();
-      },
-      close: () => {
-        dialog.current.close();
-      },
-    };
-  });
-
+  useEffect(() => {
+    open ? dialog.current.showModal() : dialog.current.close();
+    // can't use simple array for dependency
+    // dependency is the code inside useEffect hook
+    // which causee change in state or prop causing it to reload
+    // open is that dependency here, causing change in state
+  }, [open]);
   return createPortal(
-    <dialog className="modal" ref={dialog}>
+    <dialog className="modal" ref={dialog} open={open} onClose={onClose}>
       {children}
     </dialog>,
-    document.getElementById('modal')
+    document.getElementById("modal"),
   );
-});
+}
 
 export default Modal;
