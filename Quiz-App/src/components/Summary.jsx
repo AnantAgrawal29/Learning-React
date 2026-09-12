@@ -40,7 +40,7 @@ export default function Summary({ userAnswers }) {
               ? (cssClass += " correct")
               : (cssClass += " wrong");
           return (
-            <li key={ans}>
+            <li key={i}>
               <h3>{i + 1}</h3>
               <p className="question">{QUESTIONS[i].text}</p>
               <p className={cssClass}>{ans ?? "Skipped"}</p>
