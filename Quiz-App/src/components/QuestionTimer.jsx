@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function QuestionTimer({ timeout, onTimeout }) {
+export default function QuestionTimer({ timeout, onTimeout, mode }) {
   const [remainingTime, setRemainingTime] = useState(timeout);
   // useEffect is used for code that needs to changed with state update or prop change but it takes time to execute to do it, code that take some time ot generate output such as async funtions
 
@@ -21,5 +21,12 @@ export default function QuestionTimer({ timeout, onTimeout }) {
     return () => clearInterval(interval);
   }, []);
 
-  return <progress id="question-time" value={remainingTime} max={timeout} />;
+  return (
+    <progress
+      id="question-time"
+      value={remainingTime}
+      max={timeout}
+      className={mode}
+    />
+  );
 }
