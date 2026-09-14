@@ -24,6 +24,7 @@ function App() {
 
   function handleSetClick() {
     setChosenCount(enteredNumber);
+    setChosenCount((prev) => prev + 1);
     setEnteredNumber(0);
   }
 
@@ -36,7 +37,8 @@ function App() {
           <input type="number" onChange={handleChange} value={enteredNumber} />
           <button onClick={handleSetClick}>Set</button>
         </section>
-        <Counter initialCount={chosenCount} />
+        {/* here the key component causes recreation of counter component on change in counterValue */}
+        <Counter key={chosenCount} initialCount={chosenCount} />
       </main>
     </>
   );
