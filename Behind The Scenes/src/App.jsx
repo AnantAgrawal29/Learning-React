@@ -4,6 +4,14 @@ import Counter from "./components/Counter/Counter.jsx";
 import Header from "./components/Header.jsx";
 import { log } from "./log.js";
 
+// react uses virtual dom to change the real dom elements for browser
+// steps: -
+// create react component tree
+// render each component and convert it into a dom which is then called a virtual dom
+// compare this new snapshot of virtual DOM with the old (if it exists)
+// show changes to only those elements in DOM which actually changed
+// finally make those changes in the real DOM
+
 function App() {
   log("<App /> rendered");
 

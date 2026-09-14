@@ -1,4 +1,4 @@
-import { useState, memo, useCallback } from "react";
+import { useState, memo, useMemo, useCallback } from "react";
 
 import IconButton from "../UI/IconButton.jsx";
 import MinusIcon from "../UI/Icons/MinusIcon.jsx";
@@ -25,9 +25,15 @@ function isPrime(number) {
 
 // memo stops function from re-executing if there is a change in the parent component
 // but no change in the counter component by checking its props (eg: initialCount)
+// memo is specifically used for component functions;
 const Counter = memo(function Counter({ initialCount }) {
   log("<Counter /> rendered", 1);
-  const initialCountIsPrime = isPrime(initialCount);
+
+  // to stop normal functions from reloading if the output is same we use useMemo hook
+  const initialCountIsPrime = useMemo(
+    () => isPrime(initialCount),
+    [initialCount],
+  );
 
   const [counter, setCounter] = useState(initialCount);
 
