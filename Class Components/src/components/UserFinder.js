@@ -22,6 +22,12 @@ class UserFinder extends Component {
     this.setState({ searchTerm: event.target.value });
   };
 
+  // useEffect without any dependency
+  componentDidMount() {
+    this.setState({ filteredUsers: DUMMY_USERS });
+  }
+
+  // useEffect with dependancy
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchTerm !== this.state.searchTerm)
       this.setState({
