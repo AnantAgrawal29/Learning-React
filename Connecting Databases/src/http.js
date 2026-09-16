@@ -13,8 +13,14 @@ export async function updateUserPlaces(places) {
       "Content-Type": "application/json",
     },
   });
-
   if (!res.ok) throw new Error("Updation failed");
   const resData = await res.json();
-  return resData;
+}
+
+export async function fetchUserPlaces() {
+  const res = await fetch("http://localhost:3000/user-places");
+
+  if (!res.ok) throw new Error("Fetching User Places failed");
+  const resData = await res.json();
+  return resData.places;
 }
