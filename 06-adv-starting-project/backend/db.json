@@ -1,6 +1,20 @@
 {
   "opinions": [
     {
+      "id": 1789824400010,
+      "votes": 0,
+      "userName": "Anant",
+      "title": "Somthing nice",
+      "body": "Adding something new"
+    },
+    {
+      "id": 1789823985122,
+      "votes": 0,
+      "userName": "Anant",
+      "title": "Linux Learning",
+      "body": "Something cooking for linux!"
+    },
+    {
       "id": 1,
       "userName": "Maximilian Schwarzmüller",
       "title": "Do yourself a favor and learn React!",
