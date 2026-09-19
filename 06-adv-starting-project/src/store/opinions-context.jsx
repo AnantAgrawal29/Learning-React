@@ -38,9 +38,12 @@ export function OpinionsContextProvider({ children }) {
   }
 
   async function upvoteOpinion(id) {
-    const res = await fetch("localhost:3000/opinions/" + id + "/upvote", {
-      method: "POST",
-    });
+    const res = await fetch(
+      "http://localhost:3000/opinions/" + id + "/upvote",
+      {
+        method: "POST",
+      },
+    );
 
     if (!res.ok) return;
 
@@ -55,9 +58,12 @@ export function OpinionsContextProvider({ children }) {
   }
 
   async function downvoteOpinion(id) {
-    const res = await fetch("localhost:3000/opinions/" + id + "/downvote", {
-      method: "POST",
-    });
+    const res = await fetch(
+      "http://localhost:3000/opinions/" + id + "/downvote",
+      {
+        method: "POST",
+      },
+    );
 
     if (!res.ok) return;
     setOpinions((prevOpinions) => {

@@ -1,14 +1,26 @@
-import { use } from "react";
+import { use, useOptimistic } from "react";
 import { OpinionsContext } from "../store/opinions-context";
 
 export function Opinion({ opinion: { id, title, body, userName, votes } }) {
-  const { upvoteOpinion, downvoteOpnion } = use(OpinionsContext);
-  function upvoteAction() {
-    console.log("UPVOTE");
+  const { upvoteOpinion, downvoteOpinion } = use(OpinionsContext);
+
+  // Optimistic updates are a UI pattern where an application instantly updates its interface
+  // to reflect a user's action before the server confirms it was successful.
+  // This drastically improves the perceived performance and responsiveness of the application.
+  // If the server request succeeds, the update is seamlessly finalized;
+  // if it fails, the UI rolls back to the original state
+  const [optimisticVotes, setVotesOptimistically] = useOptimistic(
+    votes,
+    (prevVotes, mode) => (mode === "up" ? prevVotes + 1 : prevVotes - 1),
+  );
+  async function upvoteAction() {
+    setVotesOptimistically("up");
+    await upvoteOpinion(id);
   }
 
-  function downvoteAction() {
-    console.log("DOWNVOTE");
+  async function downvoteAction() {
+    setVotesOptimistically("down");
+    await downvoteOpinion(id);
   }
 
   return (
@@ -37,7 +49,7 @@ export function Opinion({ opinion: { id, title, body, userName, votes } }) {
           </svg>
         </button>
 
-        <span>{votes}</span>
+        <span>{optimisticVotes}</span>
 
         <button formAction={downvoteAction}>
           <svg
