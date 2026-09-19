@@ -6,67 +6,67 @@ import {
   isEqualToOtherValue,
 } from "../util/validation";
 
+function signupAction(prevFormState, formdata) {
+  if (formdata === null) {
+    return initialState;
+  }
+  const email = formdata.get("email");
+  const password = formdata.get("password");
+  const confirmPassword = formdata.get("confirm-password");
+  const firstName = formdata.get("first-name");
+  const lastName = formdata.get("last-name");
+  const role = formdata.get("role");
+  const terms = formdata.get("terms");
+  const acquisition = formdata.getAll("acquisition");
+
+  let errors = [];
+  if (!isEmail(email)) errors.push("Invalid email address");
+
+  if (!isNotEmpty(password) && !hasMinLength(password, 6))
+    errors.push("You must provide a password with atleast 6 characters.");
+
+  if (!isEqualToOtherValue(password, confirmPassword))
+    errors.push("Passwords do not match");
+
+  if (!isNotEmpty(firstName) || !isNotEmpty(lastName))
+    errors.push("Please provide both, your first and last name");
+
+  if (!isNotEmpty(role)) errors.push("Please select a role");
+
+  if (!terms) errors.push("You must agree to the terms and conditions.");
+
+  if (acquisition.length === 0)
+    errors.push("Please select an acquisition channel");
+
+  if (errors.length > 0)
+    return {
+      errors,
+      enteredValues: {
+        email,
+        password,
+        confirmPassword,
+        firstName,
+        lastName,
+        role,
+        terms,
+        acquisition,
+      },
+    };
+
+  return { errors: null };
+}
+
 export default function Signup() {
   // above react version 19 form actions are supported
   // form action creates formdata object by itself
   // special hook useActionState is used
 
-  function signupAction(prevFormState, formdata) {
-    if (formdata === null) {
-      return initialState;
-    }
-    const email = formdata.get("email");
-    const password = formdata.get("password");
-    const confirmPassword = formdata.get("confirm-password");
-    const firstName = formdata.get("first-name");
-    const lastName = formdata.get("last-name");
-    const role = formdata.get("role");
-    const terms = formdata.get("terms");
-    const acquisition = formdata.getAll("acquisition");
-
-    let errors = [];
-    if (!isEmail(email)) errors.push("Invalid email address");
-
-    if (!isNotEmpty(password) && !hasMinLength(password, 6))
-      errors.push("You must provide a password with atleast 6 characters.");
-
-    if (!isEqualToOtherValue(password, confirmPassword))
-      errors.push("Passwords do not match");
-
-    if (!isNotEmpty(firstName) || !isNotEmpty(lastName))
-      errors.push("Please provide both, your first and last name");
-
-    if (!isNotEmpty(role)) errors.push("Please select a role");
-
-    if (!terms) errors.push("You must agree to the terms and conditions.");
-
-    if (acquisition.length === 0)
-      errors.push("Please select an acquisition channel");
-
-    if (errors.length > 0)
-      return {
-        errors,
-        enteredValues: {
-          email,
-          password,
-          confirmPassword,
-          firstName,
-          lastName,
-          role,
-          terms,
-          acquisition,
-        },
-      };
-
-    return { errors: null };
-  }
-
-  // formState -> current form state
-  // formAction -> updated form action, attached to form element
   const initialState = {
     errors: null,
   };
 
+  // formState -> current form state
+  // formAction -> function to update formState, attached to form element
   const [formState, formAction] = useActionState(signupAction, initialState);
 
   return (
