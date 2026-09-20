@@ -9,7 +9,7 @@ body {
   font-family: "Raleway", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(#29251c, #2c2306);
+  background: linear-gradient(#2c2619, #1a1401);
   color: #d9e2f1;
   min-height: 100vh;
 }
@@ -100,10 +100,11 @@ h1 {
   display: inline-block;
   background-color: #312c1d;
   color: #ffc404;
+  width: 30%;
   font-size: 0.9rem;
   font-weight: bold;
   padding: 0.5rem 2rem;
-  margin: 0;
+  margin: 0 auto;
   border-radius: 4px;
 }
 
@@ -200,12 +201,31 @@ h1 {
   padding: 0.5rem;
   border-radius: 4px;
   border: 1px solid #ccc;
+  margin-bottom: 1rem;
 }
 
 .control-row {
   display: flex;
   justify-content: flex-start;
   gap: 1rem;
+}
+
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+.button-row-btn {
+  display: flex;
+  justify-content: flex-end;
+  display: inline;
+  gap: 1rem;
+  font: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  color: #1f1a09;
+  padding: 0.5rem 1.5rem;
+  border: none;
 }
 
 .button {
@@ -215,6 +235,8 @@ h1 {
   border: 1px solid #ffc404;
   color: #1f1a09;
   padding: 0.5rem 1.5rem;
+  max-width: 10rem;
+  /* margin: 1.5rem auto; */
   border-radius: 4px;
 }
 
