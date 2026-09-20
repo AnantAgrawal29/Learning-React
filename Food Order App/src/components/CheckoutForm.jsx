@@ -39,16 +39,25 @@ function checkoutAction(prevForm, formdata) {
   };
 }
 
-export default function CheckoutForm({ totalPrice = 89.95 }) {
+export default function CheckoutForm({ checkoutRef, totalPrice = 89.95 }) {
   const [checkoutState, checkoutActionFn] = useActionState(
     checkoutAction,
     initialState,
   );
+
+  function handleClose() {
+    checkoutRef.current.close();
+  }
+
+  function handleBackdropClick(event) {
+    if (event.target === event.currentTarget) handleClose();
+  }
+
   return (
-    <dialog className="modal" open>
+    <dialog className="modal" ref={checkoutRef} onClick={handleBackdropClick}>
       <h2>Checkout</h2>
       <p>Total amount - ${totalPrice}</p>
-      <form className="control" action={checkoutActionFn}>
+      <form className="control modal-actions" action={checkoutActionFn}>
         <label htmlFor="fullName">Full Name</label>
         <input
           type="text"
@@ -74,7 +83,7 @@ export default function CheckoutForm({ totalPrice = 89.95 }) {
           required
         />
         <div className="control-row">
-          <div>
+          <div className="control">
             <label htmlFor="postalCode">Postal Code</label>
             <input
               type="number"
@@ -84,7 +93,7 @@ export default function CheckoutForm({ totalPrice = 89.95 }) {
               required
             />
           </div>
-          <div>
+          <div className="control">
             <label htmlFor="city">City</label>
             <input
               type="text"
@@ -95,12 +104,8 @@ export default function CheckoutForm({ totalPrice = 89.95 }) {
             />
           </div>
         </div>
-        <div className="button-row">
-          <button
-            type="reset"
-            className="button-row-btn"
-            onClick={() => checkoutActionFn(null)}
-          >
+        <div className="modal-actions">
+          <button type="reset" className="text-button" onClick={handleClose}>
             Close
           </button>
           <button type="submit" className="button">
