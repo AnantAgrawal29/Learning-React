@@ -6,20 +6,6 @@ export const CartContext = createContext({
   updateItemsInCart: () => {},
 });
 
-async function addOrder(itemData) {
-  const response = await fetch("http://localhost:3000/orders", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(itemData),
-  });
-
-  if (!response.ok) {
-    return;
-  }
-}
-
 function shoppingCartReducer(state, action) {
   if (action.type === "ADD_ITEM") {
     const updatedItems = [...state.items];
@@ -105,6 +91,27 @@ export default function CartContextProvider({ children }) {
         amount,
       },
     });
+  }
+  async function addOrder(customerData) {
+    const response = await fetch("http://localhost:3000/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        order: {
+          items: shoppingCartState.items,
+          customer: customerData,
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      return;
+    }
+
+    const message = await response.json();
+    console.log(message);
   }
 
   const ctxValue = {

@@ -1,50 +1,63 @@
+import { use } from "react";
 import { useActionState } from "react";
 import { createPortal } from "react-dom";
+import { CartContext } from "../store/cartContext";
 
 const initialState = {
   errors: null,
 };
 
-function checkoutAction(prevForm, formdata) {
-  if (formdata == null) return initialState;
-  const fullName = formdata.get("fullName");
-  const email = formdata.get("email");
-  const street = formdata.get("street");
-  const postalCode = formdata.get("postalCode");
-  const city = formdata.get("city");
-
-  const errors = [];
-
-  if (fullName.trim().length === 0)
-    errors.push("Please enter a valid fullname!");
-  if (street.trim().length === 0)
-    errors.push("Please enter a valid street name!");
-  if (city.trim().length === 0) errors.push("Please enter a valid city name!");
-  if (postalCode.trim().length < 6)
-    errors.push("Please enter a valid postal code!");
-
-  if (errors.length > 0)
-    return {
-      errors,
-      enteredValues: {
-        fullName,
-        email,
-        postalCode,
-        city,
-        street,
-      },
-    };
-
-  return {
-    errors: null,
-  };
-}
-
-export default function CheckoutForm({ checkoutRef, totalPrice = 89.95 }) {
+export default function CheckoutForm({ checkoutRef }) {
   const [checkoutState, checkoutActionFn] = useActionState(
     checkoutAction,
     initialState,
   );
+  const { items, addOrder } = use(CartContext);
+
+  async function checkoutAction(prevForm, formdata) {
+    if (formdata == null) return initialState;
+    const fullName = formdata.get("fullName");
+    const email = formdata.get("email");
+    const street = formdata.get("street");
+    const postalCode = formdata.get("postalCode");
+    const city = formdata.get("city");
+
+    const errors = [];
+
+    if (fullName.trim().length === 0)
+      errors.push("Please enter a valid fullname!");
+    if (email.trim().length === 0) errors.push("Please enter a valid email!");
+    if (street.trim().length === 0)
+      errors.push("Please enter a valid street name!");
+    if (city.trim().length === 0)
+      errors.push("Please enter a valid city name!");
+    if (postalCode.trim().length < 6)
+      errors.push("Please enter a valid postal code!");
+
+    if (errors.length > 0)
+      return {
+        errors,
+        enteredValues: {
+          fullName,
+          email,
+          postalCode,
+          city,
+          street,
+        },
+      };
+
+    await addOrder({
+      name: fullName,
+      email,
+      "postal-code": postalCode,
+      city,
+      street,
+    });
+
+    return {
+      errors: null,
+    };
+  }
 
   function handleClose() {
     checkoutRef.current.close();
@@ -57,7 +70,10 @@ export default function CheckoutForm({ checkoutRef, totalPrice = 89.95 }) {
   return createPortal(
     <dialog className="modal" ref={checkoutRef} onClick={handleBackdropClick}>
       <h2>Checkout</h2>
-      <p>Total amount - ${totalPrice}</p>
+      <p>
+        Total amount - $
+        {items.reduce((total, item) => total + +item.price * item.quantity, 0)}
+      </p>
       <form className="control modal-actions" action={checkoutActionFn}>
         <label htmlFor="fullName">Full Name</label>
         <input
