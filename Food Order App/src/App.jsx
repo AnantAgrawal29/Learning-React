@@ -4,10 +4,12 @@ import CheckoutForm from "./components/CheckoutForm";
 import Header from "./components/Header";
 import Meals from "./components/Meals";
 import CartContextProvider from "./store/cartContext";
+import SuccessModal from "./components/SucessModal";
 
 function App() {
   const showCart = useRef();
   const showCheckout = useRef();
+  const showSuccess = useRef();
 
   function handleShowModal(ref) {
     ref.current.showModal();
@@ -30,10 +32,16 @@ function App() {
           onClose={handleClose}
         />
         <CheckoutForm
+          OnShow={() => handleShowModal(showSuccess)}
           checkoutRef={showCheckout}
           cartRef={showCart}
           onBackdropClick={handleBackdropClick}
           onClose={handleClose}
+        />
+        <SuccessModal
+          successRef={showSuccess}
+          onClose={handleClose}
+          onBackdropClick={handleBackdropClick}
         />
         <Meals />
       </CartContextProvider>

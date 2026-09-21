@@ -2,22 +2,38 @@ import { use } from "react";
 import { useActionState } from "react";
 import { createPortal } from "react-dom";
 import { CartContext } from "../store/cartContext";
+import useHttp from "../hooks/useHttp";
+import Error from "./Error";
 
 const initialState = {
   errors: null,
 };
 
+const config = {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
+
 export default function CheckoutForm({
   checkoutRef,
   onBackdropClick,
+  OnShow,
   onClose,
   cartRef,
 }) {
-  const [checkoutState, checkoutActionFn] = useActionState(
+  const [checkoutState, checkoutActionFn, isSubmitting] = useActionState(
     checkoutAction,
     initialState,
   );
-  const { items, addOrder } = use(CartContext);
+
+  const { items, clearCart } = use(CartContext);
+
+  const { error, sendRequest } = useHttp(
+    "http://localhost:3000/orders",
+    config,
+  );
 
   async function checkoutAction(prevForm, formdata) {
     if (formdata == null) return initialState;
@@ -51,21 +67,59 @@ export default function CheckoutForm({
         },
       };
 
-    await addOrder({
-      name: fullName,
-      email,
-      "postal-code": postalCode,
-      city,
-      street,
-    });
+    const response = await sendRequest(
+      JSON.stringify({
+        order: {
+          items,
+          customer: {
+            name: fullName,
+            email,
+            "postal-code": postalCode,
+            city,
+            street,
+          },
+        },
+      }),
+    );
 
+    if (!response) {
+      return {
+        errors: null,
+        enteredValues: {
+          fullName,
+          email,
+          postalCode,
+          city,
+          street,
+        },
+      };
+    }
+
+    clearCart();
     onClose(checkoutRef);
     onClose(cartRef);
-
+    OnShow();
     return {
       errors: null,
     };
   }
+
+  const actions = isSubmitting ? (
+    <span>Sending order data...</span>
+  ) : (
+    <>
+      <button
+        type="reset"
+        className="text-button"
+        onClick={() => onClose(checkoutRef)}
+      >
+        Close
+      </button>
+      <button type="submit" className="button" disabled={isSubmitting}>
+        Submit Order
+      </button>
+    </>
+  );
 
   return createPortal(
     <dialog
@@ -120,18 +174,8 @@ export default function CheckoutForm({
             />
           </div>
         </div>
-        <div className="modal-actions">
-          <button
-            type="reset"
-            className="text-button"
-            onClick={() => onClose(checkoutRef)}
-          >
-            Close
-          </button>
-          <button type="submit" className="button">
-            Submit Order
-          </button>
-        </div>
+        {error && <Error title="Failed to submit order" message={error} />}
+        <div className="modal-actions">{actions}</div>
         {checkoutState.errors && (
           <div className="error">
             <ul>

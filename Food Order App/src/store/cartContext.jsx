@@ -106,35 +106,11 @@ export default function CartContextProvider({ children }) {
     });
   }
 
-  async function addOrder(customerData) {
-    const response = await fetch("http://localhost:3000/orders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        order: {
-          items: shoppingCartState.items,
-          customer: customerData,
-        },
-      }),
-    });
-
-    if (!response.ok) {
-      return;
-    }
-
-    const message = await response.json();
-    console.log(message);
-
-    clearCart();
-  }
-
   const ctxValue = {
     items: shoppingCartState.items,
     addItemToCart: handleAddItemToCart,
     updateItemsInCart: handleUpdateCartItemQuantity,
-    addOrder,
+    clearCart,
   };
 
   return (
