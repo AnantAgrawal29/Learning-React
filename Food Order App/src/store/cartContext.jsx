@@ -58,9 +58,16 @@ function shoppingCartReducer(state, action) {
     }
 
     return {
+      ...state,
       items: updatedItems,
     };
   }
+
+  if (action.type === "CLEAR")
+    return {
+      ...state,
+      items: [],
+    };
 
   return state;
 }
@@ -92,6 +99,13 @@ export default function CartContextProvider({ children }) {
       },
     });
   }
+
+  function clearCart() {
+    shoppingCartDisptach({
+      type: "CLEAR",
+    });
+  }
+
   async function addOrder(customerData) {
     const response = await fetch("http://localhost:3000/orders", {
       method: "POST",
@@ -112,6 +126,8 @@ export default function CartContextProvider({ children }) {
 
     const message = await response.json();
     console.log(message);
+
+    clearCart();
   }
 
   const ctxValue = {

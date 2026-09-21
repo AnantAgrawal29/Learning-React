@@ -7,7 +7,12 @@ const initialState = {
   errors: null,
 };
 
-export default function CheckoutForm({ checkoutRef }) {
+export default function CheckoutForm({
+  checkoutRef,
+  onBackdropClick,
+  onClose,
+  cartRef,
+}) {
   const [checkoutState, checkoutActionFn] = useActionState(
     checkoutAction,
     initialState,
@@ -54,21 +59,20 @@ export default function CheckoutForm({ checkoutRef }) {
       street,
     });
 
+    onClose(checkoutRef);
+    onClose(cartRef);
+
     return {
       errors: null,
     };
   }
 
-  function handleClose() {
-    checkoutRef.current.close();
-  }
-
-  function handleBackdropClick(event) {
-    if (event.target === event.currentTarget) handleClose();
-  }
-
   return createPortal(
-    <dialog className="modal" ref={checkoutRef} onClick={handleBackdropClick}>
+    <dialog
+      className="modal"
+      ref={checkoutRef}
+      onClick={(e) => onBackdropClick(e, checkoutRef)}
+    >
       <h2>Checkout</h2>
       <p>
         Total amount - $
@@ -117,7 +121,11 @@ export default function CheckoutForm({ checkoutRef }) {
           </div>
         </div>
         <div className="modal-actions">
-          <button type="reset" className="text-button" onClick={handleClose}>
+          <button
+            type="reset"
+            className="text-button"
+            onClick={() => onClose(checkoutRef)}
+          >
             Close
           </button>
           <button type="submit" className="button">

@@ -9,18 +9,32 @@ function App() {
   const showCart = useRef();
   const showCheckout = useRef();
 
-  function handleCartModal() {
-    showCart.current.showModal();
+  function handleShowModal(ref) {
+    ref.current.showModal();
   }
-  function handleCheckoutModal() {
-    showCheckout.current.showModal();
+  function handleClose(ref) {
+    ref.current.close();
   }
+  function handleBackdropClick(event, ref) {
+    if (event.target === event.currentTarget) handleClose(ref);
+  }
+
   return (
     <>
       <CartContextProvider>
-        <Header totalItems={0} onCartModal={handleCartModal} />
-        <CartModal cartRef={showCart} onCheckout={handleCheckoutModal} />
-        <CheckoutForm checkoutRef={showCheckout} />
+        <Header totalItems={0} onCartModal={() => handleShowModal(showCart)} />
+        <CartModal
+          cartRef={showCart}
+          onCheckout={() => handleShowModal(showCheckout)}
+          onBackdropClick={handleBackdropClick}
+          onClose={handleClose}
+        />
+        <CheckoutForm
+          checkoutRef={showCheckout}
+          cartRef={showCart}
+          onBackdropClick={handleBackdropClick}
+          onClose={handleClose}
+        />
         <Meals />
       </CartContextProvider>
     </>
