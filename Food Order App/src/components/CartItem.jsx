@@ -1,11 +1,11 @@
-export default function CartItem({ quantity = 3, price = 1 }) {
+export default function CartItem({ item }) {
   return (
     <li className="cart-item">
       <p>
-        Seafood Paella - <span>{quantity}</span> x $<span>{price}</span>
+        {item.name} - <span>{item.quantity}</span> x $<span>{item.price}</span>
       </p>
       <p className="cart-item-actions">
-        <button>-</button>1<button>+</button>
+        <button>-</button>{item.quantity}<button>+</button>
       </p>
     </li>
   );

@@ -1,16 +1,26 @@
-import { use } from "react";
-import { MealsContext } from "../store/mealContext";
+import { useState, useEffect } from "react";
 import Meal from "./Meal";
 
 export default function Meals() {
-  const { meals } = use(MealsContext);
+  const [meals, setMeals] = useState(null);
+
+  useEffect(() => {
+    async function loadMeals() {
+      const response = await fetch("http://localhost:3000/meals");
+      const allMeals = await response.json();
+      setMeals(allMeals);
+    }
+
+    loadMeals();
+  }, []);
+
   return (
     <main>
       {meals && (
         <ul id="meals">
           {meals.map((meal) => (
             <li key={meal.id} className="meal-item">
-              <Meal meal={meal} />
+              <Meal meal={meal} allMeals={meals} />
             </li>
           ))}
         </ul>

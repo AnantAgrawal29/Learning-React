@@ -1,4 +1,5 @@
 import { useActionState } from "react";
+import { createPortal } from "react-dom";
 
 const initialState = {
   errors: null,
@@ -53,7 +54,7 @@ export default function CheckoutForm({ checkoutRef, totalPrice = 89.95 }) {
     if (event.target === event.currentTarget) handleClose();
   }
 
-  return (
+  return createPortal(
     <dialog className="modal" ref={checkoutRef} onClick={handleBackdropClick}>
       <h2>Checkout</h2>
       <p>Total amount - ${totalPrice}</p>
@@ -64,7 +65,6 @@ export default function CheckoutForm({ checkoutRef, totalPrice = 89.95 }) {
           name="fullName"
           id="fullName"
           defaultValue={checkoutState?.enteredValues?.fullName}
-          required
         />
         <label htmlFor="email">E-Mail Address</label>
         <input
@@ -72,7 +72,6 @@ export default function CheckoutForm({ checkoutRef, totalPrice = 89.95 }) {
           name="email"
           id="email"
           defaultValue={checkoutState?.enteredValues?.email}
-          required
         />
         <label htmlFor="street">Street</label>
         <input
@@ -80,7 +79,6 @@ export default function CheckoutForm({ checkoutRef, totalPrice = 89.95 }) {
           name="street"
           id="street"
           defaultValue={checkoutState?.enteredValues?.street}
-          required
         />
         <div className="control-row">
           <div className="control">
@@ -90,7 +88,6 @@ export default function CheckoutForm({ checkoutRef, totalPrice = 89.95 }) {
               name="postalCode"
               id="postalCode"
               defaultValue={checkoutState?.enteredValues?.postalCode}
-              required
             />
           </div>
           <div className="control">
@@ -100,7 +97,6 @@ export default function CheckoutForm({ checkoutRef, totalPrice = 89.95 }) {
               name="city"
               id="city"
               defaultValue={checkoutState?.enteredValues?.city}
-              required
             />
           </div>
         </div>
@@ -122,6 +118,7 @@ export default function CheckoutForm({ checkoutRef, totalPrice = 89.95 }) {
           </div>
         )}
       </form>
-    </dialog>
+    </dialog>,
+    document.getElementById("modal"),
   );
 }

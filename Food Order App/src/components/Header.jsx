@@ -1,4 +1,8 @@
-export default function Header({ onCartModal, totalItems }) {
+import { use } from "react";
+import { CartContext } from "../store/cartContext";
+
+export default function Header({ onCartModal }) {
+  const { items } = use(CartContext);
   return (
     <header id="main-header">
       <div id="title">
@@ -6,7 +10,7 @@ export default function Header({ onCartModal, totalItems }) {
         <h1>REACTFOOD</h1>
       </div>
       <button onClick={onCartModal}>
-        Cart {totalItems > 0 && `(${totalItems})`}
+        Cart {!items && `(${items.length})`}
       </button>
     </header>
   );

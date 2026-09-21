@@ -1,4 +1,7 @@
-export default function Meal({ meal }) {
+import { use } from "react";
+import { CartContext } from "../store/cartContext";
+export default function Meal({ meal, allMeals }) {
+  const { addItemToCart } = use(CartContext);
   return (
     <>
       <article>
@@ -6,7 +9,14 @@ export default function Meal({ meal }) {
         <h3>{meal.name}</h3>
         <span className="meal-item-price">${meal.price}</span>
         <p className="meal-item-description">{meal.description}</p>
-        <button className="button meal-item-actions">Add to Cart</button>
+        <button
+          className="button meal-item-actions"
+          onClick={() => {
+            addItemToCart(meal.id, allMeals);
+          }}
+        >
+          Add to Cart
+        </button>
       </article>
     </>
   );
