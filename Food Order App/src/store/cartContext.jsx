@@ -113,7 +113,6 @@ export default function CartContextProvider({ children }) {
     updateItemsInCart: handleUpdateCartItemQuantity,
     addOrder,
   };
-  console.dir(ctxValue);
 
   return (
     <CartContext.Provider value={ctxValue}>{children}</CartContext.Provider>

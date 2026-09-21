@@ -10,7 +10,9 @@ export default function Header({ onCartModal }) {
         <h1>REACTFOOD</h1>
       </div>
       <button onClick={onCartModal}>
-        Cart {!items && `(${items.length})`}
+        Cart{" "}
+        {items.length !== 0 &&
+          `(${items.reduce((total, item) => total + item.quantity, 0)})`}
       </button>
     </header>
   );

@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import { CartContext } from "../store/cartContext";
 
 export default function CartModal({ onCheckout, cartRef }) {
-  const { items, updateItemsInCart } = use(CartContext);
+  const { items } = use(CartContext);
   function handleClose() {
     cartRef.current.close();
   }
@@ -24,7 +24,11 @@ export default function CartModal({ onCheckout, cartRef }) {
         </ul>
       )}
       {items.length === 0 && <p>No items added.</p>}
-      {items.length !== 0 && <p className="cart-total">$73.96</p>}
+      {items.length !== 0 && (
+        <p className="cart-total">
+          ${items.reduce((acc, el) => acc + +el.price * el.quantity, 0)}
+        </p>
+      )}
       <div className="modal-actions">
         <button className="text-button" onClick={handleClose}>
           Close
