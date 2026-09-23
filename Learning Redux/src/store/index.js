@@ -1,4 +1,4 @@
-const redux = require("redux");
+import { createStore } from "redux";
 
 function reducer(state = { counter: 0 }, action) {
   if (action.type === "increment")
@@ -12,12 +12,10 @@ function reducer(state = { counter: 0 }, action) {
   return state;
 }
 
+const store = createStore(reducer);
 function counterSubscriber() {
   const latestState = store.getState();
   console.log(latestState);
 }
-
-const store = redux.createStore(reducer);
 store.subscribe(counterSubscriber);
-
-module.exports = store;
+export default store;
