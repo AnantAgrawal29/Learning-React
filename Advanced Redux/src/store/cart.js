@@ -13,7 +13,6 @@ const cartSlice = createSlice({
   reducers: {
     addToCart(state, action) {
       const item = action.payload;
-      if (!item.id) item.id = Math.ceil(Math.random() * 10000);
       const exisitingcartItem = state.items.find((el) => el.id === item.id);
       if (!exisitingcartItem) {
         item.quantity = 1;
@@ -24,17 +23,25 @@ const cartSlice = createSlice({
         exisitingcartItem.totalPrice += exisitingcartItem.price;
       }
       state.totalPrice += item.price;
+      state.totalQuantity++;
     },
     manageQuantity(state, action) {
       const updation = action.payload;
       const exisitingcartItem = state.items.find((el) => el.id === updation.id);
       const newQuantity = exisitingcartItem.quantity + updation.amount;
-      if (newQuantity <= 0)
+
+      state.totalPrice -= exisitingcartItem.totalPrice;
+      state.totalQuantity -= exisitingcartItem.quantity;
+
+      if (newQuantity <= 0) {
         state.items = state.items.filter((el) => el.id !== updation.id);
-      else {
+      } else {
         exisitingcartItem.quantity += updation.amount;
+        state.totalQuantity += exisitingcartItem.quantity;
+
         exisitingcartItem.totalPrice +=
           updation.amount * exisitingcartItem.price;
+        state.totalPrice += exisitingcartItem.totalPrice;
       }
     },
     toggleCart(state) {
