@@ -4,7 +4,7 @@ import classes from "./Cart.module.css";
 import CartItem from "./CartItem";
 
 const Cart = (props) => {
-  const showCart = useSelector((state) => state.cart.showCart);
+  const showCart = useSelector((state) => state.ui.showCart);
   const items = useSelector((state) => state.cart.items);
   if (!showCart) return;
   return (

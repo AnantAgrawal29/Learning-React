@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialCartState = {
   items: [],
-  showCart: true,
   totalQuantity: 0,
   totalPrice: 0,
 };
@@ -43,9 +42,6 @@ const cartSlice = createSlice({
           updation.amount * exisitingcartItem.price;
         state.totalPrice += exisitingcartItem.totalPrice;
       }
-    },
-    toggleCart(state) {
-      state.showCart = !state.showCart;
     },
   },
 });
