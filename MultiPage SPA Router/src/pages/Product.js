@@ -1,8 +1,11 @@
 export default function Product() {
   return (
-    <ul>
-      <li>My name</li>
-      <li>My contact</li>
-    </ul>
+    <>
+      <h1>Products Page</h1>
+      <ul>
+        <li>Product 1</li>
+        <li>Product 2</li>
+      </ul>
+    </>
   );
 }
