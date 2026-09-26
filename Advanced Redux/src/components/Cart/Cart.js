@@ -10,10 +10,10 @@ const Cart = (props) => {
   return (
     <Card className={classes.cart}>
       <h2>Your Shopping Cart</h2>
-      {items.length === 0 && <p>No items added</p>}
-      {items.length !== 0 && (
+      {(!items || items?.length === 0) && <p>No items added</p>}
+      {items?.length !== 0 && (
         <ul>
-          {items.map((item) => (
+          {items?.map((item) => (
             <CartItem
               key={item.id}
               item={{
