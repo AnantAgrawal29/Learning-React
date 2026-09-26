@@ -7,7 +7,7 @@ function HomePage() {
       {/* Link element set the page url to specified to attribute 
       prevents from sending http reuqest to the react again 
       which causes reload of whole website */}
-      <Link to="/products">See all Products</Link>
+      <Link to="products">See all Products</Link>
     </>
   );
 }
