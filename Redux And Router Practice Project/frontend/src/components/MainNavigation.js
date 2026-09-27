@@ -1,6 +1,6 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
-import classes from './MainNavigation.module.css';
+import classes from "./MainNavigation.module.css";
 
 function MainNavigation() {
   return (
@@ -24,6 +24,7 @@ function MainNavigation() {
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
+              end
             >
               Events
             </NavLink>
