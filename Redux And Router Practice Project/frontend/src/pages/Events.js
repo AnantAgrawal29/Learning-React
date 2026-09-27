@@ -13,7 +13,9 @@ export async function loadData() {
   const response = await fetch("http://localhost:8080/events");
 
   if (!response.ok) {
-    return { isError: true, message: "Fetching events failed." };
+    throw new Response(JSON.stringify({ message: "Fetching events failed." }), {
+      status: 500,
+    });
   } else {
     return response;
   }
