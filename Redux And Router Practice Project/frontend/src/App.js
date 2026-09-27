@@ -1,12 +1,12 @@
-// Challenge / Exercise
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import RootLayout from "./components/UI/RootLayout";
-import HomePage from "./components/UI/HomePage";
-import EventForm from "./components/Events/EventForm";
-import EventItem from "./components/Events/EventItem";
-import EventsList from "./components/Events/EventsList";
-import EventRoot from "./components/Events/EventRoot";
+import EditEventPage from "./pages/EditEvent";
+import EventDetailPage from "./pages/EventDetail";
+import EventsPage from "./pages/Events";
+import EventsRootLayout from "./pages/EventsRoot";
+import HomePage from "./pages/Home";
+import NewEventPage from "./pages/NewEvent";
+import RootLayout from "./pages/Root";
 
 const router = createBrowserRouter([
   {
@@ -15,13 +15,13 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       {
-        path: "/events",
-        element: <EventRoot />,
+        path: "events",
+        element: <EventsRootLayout />,
         children: [
-          { index: true, element: <EventsList /> },
-          { path: "/events/new", element: <EventForm /> },
-          { path: "/events/:id", element: <EventItem /> },
-          { path: "/events/:id/edit", element: <EventForm /> },
+          { index: true, element: <EventsPage /> },
+          { path: ":eventId", element: <EventDetailPage /> },
+          { path: "new", element: <NewEventPage /> },
+          { path: ":eventId/edit", element: <EditEventPage /> },
         ],
       },
     ],
@@ -29,11 +29,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return (
-    <RouterProvider router={router}>
-      <div></div>
-    </RouterProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
