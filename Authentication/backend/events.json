@@ -1,12 +1,1 @@
-{
-  "events": [
-    {
-      "title": "A new event",
-      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpo5fwbaCZAgJ1qOr5eDy4NhvnANTGm-HI0pnIW1Utfie6wJZaAwiP0B8&s=10",
-      "date": "2022-10-01",
-      "description": "Some awesome event!",
-      "id": "2a42fcc4-ea21-4bdd-abf6-c40006dc66a9"
-    }
-  ],
-  "users": []
-}
+{"events":[{"title":"Garba Night","image":"https://blogmanager.wowsly.com/storage/blog/featured/Sm6PHc7bcbC1NGuGpssK5Z3YUgLavQCcLBhpSExG.jpg","date":"2026-11-20","description":"A vibrant night filled with enjoyment, energy and love. ","id":"50920fa4-017d-4765-891e-878ce534366c"}],"users":[{"email":"agrawalanant2021@gmail.com","password":"$2a$12$S0byNpXuqCjV3Qyrap.aleVjjXF6aHH9nf/3muYAiMvjtqf/LNxZy","id":"feca1700-d6d2-46cc-bf9f-ad9de81a68f0"},{"email":"agrawaladiti2012@gmail.com","password":"$2a$12$d/mgol8Tf3GdW4apwc0eWumCkDGWY7gd89RJcMqMlLiZw0Of8nL6G","id":"dc6a76dd-5486-49df-8f1d-324e4812796c"}]}
