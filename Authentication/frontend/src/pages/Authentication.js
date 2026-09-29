@@ -34,8 +34,14 @@ export async function action({ request }) {
   if (res.status === 422 || res.status === 401) return res;
   if (!res.ok)
     throw new Response("Could not authenticate user!", { status: 500 });
+
   const resData = await res.json();
   const token = resData.token;
   localStorage.setItem("token", token);
+
+  const expirationDate = new Date();
+  expirationDate.setHours(expirationDate.getHours() + 1);
+  localStorage.setItem("expiration", expirationDate.toISOString());
+
   return redirect("/");
 }
