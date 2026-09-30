@@ -7,12 +7,19 @@ import EventItem from "./EventItem";
 
 export default function FindEventSection() {
   const searchElement = useRef();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState();
 
-  const { data, isPending, isError, error, refetch } = useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["events", { search: searchTerm }],
     queryFn: ({ signal }) => fetchEvents({ signal, searchTerm }),
+    enabled: searchTerm !== undefined,
   });
+
+  // isLoading vs isPending in TanStack Query
+  //  I don't want a loading spinner if we're waiting for the user to enter something here.
+  // And that's why React Query gives us an alternative to isPending.
+  // You can also use is loading Boolean. The difference between isLoading
+  // and is pending is that is loading will not be true if this Query is just disabled.
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -21,7 +28,7 @@ export default function FindEventSection() {
 
   let content = <p>Please enter a search term and to find events.</p>;
 
-  if (isPending) content = <LoadingIndicator />;
+  if (isLoading) content = <LoadingIndicator />;
   if (isError)
     content = (
       <ErrorBlock
