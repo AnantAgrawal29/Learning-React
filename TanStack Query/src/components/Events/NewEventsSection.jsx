@@ -1,52 +1,35 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import LoadingIndicator from '../UI/LoadingIndicator.jsx';
-import ErrorBlock from '../UI/ErrorBlock.jsx';
-import EventItem from './EventItem.jsx';
+import LoadingIndicator from "../UI/LoadingIndicator.jsx";
+import ErrorBlock from "../UI/ErrorBlock.jsx";
+import EventItem from "./EventItem.jsx";
+import { useQuery } from "@tanstack/react-query";
+import { fetchEvents } from "../../util/http.js";
 
 export default function NewEventsSection() {
-  const [data, setData] = useState();
-  const [error, setError] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const { data, isPending, isError, error, refetch } = useQuery({
+    queryKey: ["events"],
+    queryFn: fetchEvents,
 
-  useEffect(() => {
-    async function fetchEvents() {
-      setIsLoading(true);
-      const response = await fetch('http://localhost:3000/events');
+    // This controls after which time React Query will send such a Behind the Scenes request
+    // to get updated data if it found data in your cache. And the default is zero, which means
+    // it will use data from the cache.
+    staleTime: 5000, // wait for 5000ms before sending anther request
 
-      if (!response.ok) {
-        const error = new Error('An error occurred while fetching the events');
-        error.code = response.status;
-        error.info = await response.json();
-        throw error;
-      }
-
-      const { events } = await response.json();
-
-      return events;
-    }
-
-    fetchEvents()
-      .then((events) => {
-        setData(events);
-      })
-      .catch((error) => {
-        setError(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
-
+    // gcTime: 5000, // garbage collection time, default 5 min
+  });
   let content;
 
-  if (isLoading) {
+  if (isPending) {
     content = <LoadingIndicator />;
   }
 
-  if (error) {
+  if (isError) {
     content = (
-      <ErrorBlock title="An error occurred" message="Failed to fetch events" />
+      <ErrorBlock
+        title="An error occurred"
+        message={error.info?.message || "Failed to fetch events."}
+      />
     );
   }
 
