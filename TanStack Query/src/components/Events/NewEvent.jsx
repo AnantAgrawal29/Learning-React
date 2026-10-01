@@ -3,13 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 
 import Modal from "../UI/Modal.jsx";
 import EventForm from "./EventForm.jsx";
-import { createNewEvent } from "../../util/http.js";
+import { client, createNewEvent } from "../../util/http.js";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
 
 export default function NewEvent() {
   const navigate = useNavigate();
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: createNewEvent,
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ["events"] }); // tells react query that data fetched by this query is outdated
+      // and should be refetched , when we are adding a new event
+      navigate("/events");
+    },
   });
 
   // useMutation sends in sending requests only when we want to send them
