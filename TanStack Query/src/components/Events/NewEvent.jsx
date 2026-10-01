@@ -11,8 +11,7 @@ export default function NewEvent() {
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: createNewEvent,
     onSuccess: () => {
-      client.invalidateQueries({ queryKey: ["events"] }); // tells react query that data fetched by this query is outdated
-      // and should be refetched , when we are adding a new event
+      client.invalidateQueries({ queryKey: ["events"] }); // tells react query that data fetched by this query is outdated and should be refetched , when we are adding a new event
       navigate("/events");
     },
   });
