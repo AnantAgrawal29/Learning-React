@@ -7,8 +7,9 @@ import EventItem from "./EventItem.jsx";
 
 export default function NewEventsSection() {
   const { data, isPending, isError, error, refetch } = useQuery({
-    queryKey: ["events"],
-    queryFn: fetchEvents,
+    // setting max number of elements shown to the user, instead of all events
+    queryKey: ["events", { max: 3 }],
+    queryFn: ({ signal, queryKey }) => fetchEvents({ signal, ...queryKey[1] }),
 
     // This controls after which time React Query will send such a Behind the Scenes request
     // to get updated data if it found data in your cache. And the default is zero, which means

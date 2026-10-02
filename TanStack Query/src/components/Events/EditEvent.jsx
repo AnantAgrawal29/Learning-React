@@ -1,48 +1,60 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  redirect,
+  useNavigate,
+  useNavigation,
+  useParams,
+  useSubmit,
+} from "react-router-dom";
 
 import Modal from "../UI/Modal.jsx";
 import EventForm from "./EventForm.jsx";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { client, fetchEvent, updateEvent } from "../../util/http.js";
 import ErrorBlock from "../UI/ErrorBlock.jsx";
-import LoadingIndicator from "../UI/LoadingIndicator.jsx";
 
 export default function EditEvent() {
   const { id } = useParams();
-  const { data, isPending, isError, error } = useQuery({
+  const submit = useSubmit();
+  const { data, isError, error } = useQuery({
     queryKey: ["events", id],
     queryFn: ({ signal }) => fetchEvent({ signal, id }),
+    staleTime: 10000, // 10 seconds
   });
 
-  const { mutate } = useMutation({
-    mutationFn: updateEvent,
+  // Router actions are useful for handling form submissions and mutations in a structured way within the router, ensuring data consistency with loaders. However, they lack optimistic updates, which React Query’s useMutation excels at by immediately updating the UI before the server response arrives. If real-time UX improvement is a priority, useMutation is better suited, while router actions are beneficial for enforcing navigation-based data updates and leveraging router's built-in fetch handling. The choice depends on whether you prioritize structured routing or immediate UI updates.
 
-    // Optmistic updating
-    onMutate: async (data) => {
-      // cancelling query data request as it will fetch old data
-      await client.cancelQueries({ queryKey: ["events", id] });
+  // const { mutate } = useMutation({
+  //   mutationFn: updateEvent,
 
-      // getting previous data
-      const previousEvent = client.getQueryData(["events", id]);
+  //   // Optmistic updating
+  //   onMutate: async (data) => {
+  //     // cancelling query data request as it will fetch old data
+  //     await client.cancelQueries({ queryKey: ["events", id] });
 
-      // setting new data for the query to be loaded
-      client.setQueryData(["events", id], data.event);
+  //     // getting previous data
+  //     const previousEvent = client.getQueryData(["events", id]);
 
-      return { previousEvent };
-    },
-    onError: (error, data, context) => {
-      client.setQueryData(["events", id], context.previousEvent);
-    },
-    onSettled: () => {
-      client.invalidateQueries(["events", id]);
-    },
-  });
+  //     // setting new data for the query to be loaded
+  //     client.setQueryData(["events", id], data.event);
+
+  //     return { previousEvent };
+  //   },
+  //   onError: (error, data, context) => {
+  //     client.setQueryData(["events", id], context.previousEvent);
+  //   },
+  //   onSettled: () => {
+  //     client.invalidateQueries(["events", id]);
+  //   },
+  // });
 
   const navigate = useNavigate();
+  const { state } = useNavigation();
 
   function handleSubmit(formData) {
-    mutate({ id, event: formData });
-    navigate("../");
+    submit(formData, {
+      method: "PUT",
+    });
   }
 
   function handleClose() {
@@ -50,13 +62,6 @@ export default function EditEvent() {
   }
 
   let content;
-
-  if (isPending)
-    content = (
-      <div className="center">
-        <LoadingIndicator />
-      </div>
-    );
 
   if (isError)
     content = (
@@ -79,14 +84,35 @@ export default function EditEvent() {
   if (data)
     content = (
       <EventForm inputData={data} onSubmit={handleSubmit}>
-        <Link to="../" className="button-text">
-          Cancel
-        </Link>
-        <button type="submit" className="button">
-          Update
-        </button>
+        {state === "submitting" ? (
+          <p>Submitting...</p>
+        ) : (
+          <>
+            <Link to="../" className="button-text">
+              Cancel
+            </Link>
+            <button type="submit" className="button">
+              Update
+            </button>
+          </>
+        )}
       </EventForm>
     );
 
   return <Modal onClose={handleClose}>{content}</Modal>;
+}
+
+export function loader({ params }) {
+  return client.query({
+    queryKey: ["events", params.id],
+    queryFn: ({ signal }) => fetchEvent({ signal, id: params.id }),
+  });
+}
+
+export async function action({ request, params }) {
+  const formData = await request.formData();
+  const updatedEventData = Object.fromEntries(formData);
+  await updateEvent({ id: params.id, event: updatedEventData });
+  client.invalidateQueries(["events", params.id]);
+  return redirect("../");
 }
