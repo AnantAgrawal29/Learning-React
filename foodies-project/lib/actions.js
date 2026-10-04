@@ -1,6 +1,6 @@
 "use server";
 
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 import { saveMeal } from "./meals";
 import { revalidatePath } from "next/cache";
 

@@ -42,9 +42,9 @@ export async function saveMeal(meal) {
   const extension = meal.image.name.split(".").pop();
   const filename = `${meal.slug}.${extension}`;
   const bufferedImage = await meal.image.arrayBuffer();
-  s3.putObject({
+  await s3.putObject({
     Bucket: "anant-nextjs-demo-users-image",
-    Key: filename,
+    Key: `images/${filename}`,
     Body: Buffer.from(bufferedImage),
     ContentType: meal.image.type,
   });
