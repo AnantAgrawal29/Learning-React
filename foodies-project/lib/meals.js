@@ -1,9 +1,12 @@
 import fs from "node:fs";
-
+import { S3 } from "@aws-sdk/client-s3";
 import sql from "better-sqlite3";
 import slugify from "slugify";
 import xss from "xss";
 
+const s3 = new S3({
+  region: "ap-south-1",
+});
 const db = sql("meals.db");
 
 function normalizeImagePath(image) {
@@ -38,10 +41,12 @@ export async function saveMeal(meal) {
   meal.instructions = xss(meal.instructions);
   const extension = meal.image.name.split(".").pop();
   const filename = `${meal.slug}.${extension}`;
-  const stream = fs.createWriteStream(`public/images/${filename}`);
   const bufferedImage = await meal.image.arrayBuffer();
-  stream.write(Buffer.from(bufferedImage), (error) => {
-    if (error) throw new Error("Saving image failed!");
+  s3.putObject({
+    Bucket: "anant-nextjs-demo-users-image",
+    Key: filename,
+    Body: Buffer.from(bufferedImage),
+    ContentType: meal.image.type,
   });
   meal.image = `/images/${filename}`;
   return db
