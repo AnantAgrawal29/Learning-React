@@ -1,32 +1,17 @@
+import { MongoClient } from "mongodb";
 import MeetupList from "@/components/meetups/MeetupList";
-
-const DUMMY_MEETUPS = [
-  {
-    id: "m1",
-    title: "First Meetup",
-    image: "/some meetup.png",
-    address: "Some address, 5 2414 street",
-    description: "this is a first meetup",
-  },
-  {
-    id: "m2",
-    title: "Second Meetup",
-    image: "/homepage_8.jpg",
-    address: "Some address, a56 avenue street",
-    description: "this is a second meetup",
-  },
-  {
-    id: "m3",
-    title: "Third Meetup",
-    image: "/images.jpg",
-    address: "Some address, parklin street",
-    description: "this is the third meetup",
-  },
-];
+import Head from "next/head";
 
 export default function HomePage(props) {
   return (
     <>
+      <Head>
+        <title>React Meetups</title>
+        <meta
+          name="description"
+          content="Browse a huge list of highly active React meetups"
+        />
+      </Head>
       <MeetupList meetups={props.meetups} />
     </>
   );
@@ -51,9 +36,22 @@ export default function HomePage(props) {
 // static generation
 export async function getStaticProps() {
   // fetch data from an API
+  const client = await MongoClient.connect(
+    "mongodb+srv://default:Anant2911@cluster0.onvfyiw.mongodb.net/?appName=Cluster0",
+  );
+  const db = client.db("meetups");
+  const meetupCollection = db.collection("meetups");
+  const meetups = await meetupCollection.find().toArray();
+  client.close();
   return {
     props: {
-      meetups: DUMMY_MEETUPS,
+      meetups: meetups.map((meetup) => ({
+        title: meetup.title,
+        image: meetup.image,
+        description: meetup.description,
+        address: meetup.address,
+        id: meetup._id.toString(),
+      })),
     },
     revalidate: 1, // this page is regenerated for every 1 second on build and on server
   };
