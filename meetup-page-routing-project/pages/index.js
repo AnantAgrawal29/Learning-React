@@ -1,5 +1,4 @@
 import MeetupList from "@/components/meetups/MeetupList";
-import { useEffect, useState } from "react";
 
 const DUMMY_MEETUPS = [
   {
@@ -25,22 +24,37 @@ const DUMMY_MEETUPS = [
   },
 ];
 
-export default function HomePage() {
-  const [loadedMeetups, setLoadedMetups] = useState([]);
-
-  useEffect(() => {
-    setLoadedMetups(DUMMY_MEETUPS);
-  }, []);
+export default function HomePage(props) {
   return (
     <>
-      <MeetupList meetups={loadedMeetups} />
+      <MeetupList meetups={props.meetups} />
     </>
   );
 }
+// use when data changes frequently
+// export async function getServerSideProps(context) {
+//   const req = context.req;
+//   const res = context.res;
+//   return {
+//     props: {
+//       meetups: DUMMY_MEETUPS,
+//       // don't need to use revalidate as it relaods for every http request
+//       // as it is on server
+//     },
+//   };
+// }
 
 // all code here in this function executes on server side
 // this function is automatically executed by react/next first
 // used for loading data and waiting for http requets
 
 // static generation
-export async function getStaticProps() {}
+export async function getStaticProps() {
+  // fetch data from an API
+  return {
+    props: {
+      meetups: DUMMY_MEETUPS,
+    },
+    revalidate: 1, // this page is regenerated for every 1 second on build and on server
+  };
+}
