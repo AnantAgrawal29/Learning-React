@@ -1,8 +1,17 @@
 import MeetupDetail from "@/components/meetups/MeetupDetail";
 import { MongoClient, ObjectId } from "mongodb";
+import Head from "next/head";
 
 export default function MeetupDetails(props) {
-  return <MeetupDetail {...props.meetupData} />;
+  return (
+    <>
+      <Head>
+        <title>{props.meetupData.title}</title>
+        <meta name="description" content={props.meetupData.description} />
+      </Head>
+      <MeetupDetail {...props.meetupData} />
+    </>
+  );
 }
 
 export async function getStaticPaths() {
@@ -15,7 +24,7 @@ export async function getStaticPaths() {
   console.log(meetupIds);
   client.close();
   return {
-    fallback: false, // tells next to generate a 404 page for not defined pages here
+    fallback: "blocking", // tells next to generate a 404 page for not defined pages here
     paths: meetupIds.map((meetup) => ({
       params: {
         meetId: meetup._id.toString(),
