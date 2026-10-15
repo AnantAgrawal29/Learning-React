@@ -9,7 +9,8 @@ export default async function Home() {
       try {
         const data = await fs.readFile("dummy-db.json", "utf-8");
         const users = JSON.parse(data);
-        reject(new Error("Failed to load users"));
+        resolve(users);
+        // reject(new Error("Failed to load users"));
       } catch (error) {
         reject(error);
       }
