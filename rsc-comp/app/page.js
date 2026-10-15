@@ -1,11 +1,25 @@
-import DataFetchingDemo from "@/components/DataFetchingDemo";
-import RSCDemo from "@/components/RSCDemo";
-import ServerActionsDemo from "@/components/ServerActionsDemo";
+import UsePromiseDemo from "@/components/UsePromisesDemo";
+import { Suspense } from "react";
 
-export default function Home() {
+import fs from "node:fs/promises";
+
+export default async function Home() {
+  const userPromise = new Promise((resolve, reject) =>
+    setTimeout(async () => {
+      try {
+        const data = await fs.readFile("dummy-db.json", "utf-8");
+        const users = JSON.parse(data);
+        reject(new Error("Failed to load users"));
+      } catch (error) {
+        reject(error);
+      }
+    }, 2000),
+  );
   return (
     <main>
-      <ServerActionsDemo />
+      <Suspense fallback={<p>Cooking...</p>}>
+        <UsePromiseDemo userPromise={userPromise} />
+      </Suspense>
     </main>
   );
 }
